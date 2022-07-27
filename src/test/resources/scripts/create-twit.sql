@@ -1,0 +1,1 @@
+INSERT INTO twit(id, author, text) VALUES (1, 'Eduard', 'Hello World!');

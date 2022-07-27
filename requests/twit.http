@@ -1,0 +1,7 @@
+GET {{host}}/twit
+
+###
+
+GET {{host}}/twit/1
+
+###
