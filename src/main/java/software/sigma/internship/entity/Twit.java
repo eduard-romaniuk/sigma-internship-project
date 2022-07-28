@@ -25,6 +25,6 @@ public class Twit {
     @Column(name = "author", length = 50)
     private String author;
 
-    @Column(name = "text")
+    @Column(name = "twit_text")
     private String text;
 }
