@@ -28,8 +28,9 @@ class TwitControllerTest {
             mockMvc.perform(get("/twit"))
                     .andDo(print())
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$").isArray())
-                    .andExpect(jsonPath("$.size()").value(1));
+                    .andExpect(jsonPath("$.content.size()").value(1))
+                    .andExpect(jsonPath("$.content[0].id").value(1))
+            ;
         }
     }
 
