@@ -1,11 +1,11 @@
 package software.sigma.internship.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import software.sigma.internship.dto.TwitDto;
 
-import java.util.List;
-
 public interface TwitService {
-    List<TwitDto> findAll();
+    Page<TwitDto> findAll(Pageable pageable);
 
     TwitDto findById(long id);
 }
