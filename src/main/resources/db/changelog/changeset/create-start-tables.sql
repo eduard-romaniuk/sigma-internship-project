@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS statistic_data(
 
 CREATE TABLE IF NOT EXISTS fund(
    id BIGSERIAL NOT NULL PRIMARY KEY,
-   name varchar(255) NOT NULL,
+   name varchar(255) NOT NULL UNIQUE,
    description text NOT NULL,
    link varchar(255) NOT NULL,
    update_date timestamp NOT NULL,
@@ -31,14 +31,14 @@ CREATE TABLE IF NOT EXISTS fund(
 
 CREATE TABLE IF NOT EXISTS locale(
      id BIGSERIAL NOT NULL PRIMARY KEY,
-     name varchar(255) NOT NULL,
-     iso_code varchar(2) NOT NULL
+     name varchar(255) NOT NULL UNIQUE,
+     iso_code varchar(2) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS "user"(
      id BIGSERIAL NOT NULL PRIMARY KEY,
-     name varchar(255) NOT NULL,
-     email varchar(255) NOT NULL,
+     name varchar(255) NOT NULL UNIQUE,
+     email varchar(255) NOT NULL UNIQUE,
      password varchar(255) NOT NULL,
      role varchar(255) NOT NULL,
      locale_id INTEGER NOT NULL REFERENCES locale (id),
