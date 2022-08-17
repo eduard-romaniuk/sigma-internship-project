@@ -35,4 +35,15 @@ public class Fund {
 
     @Column(name = "create_date", nullable = false)
     private LocalDateTime createDate;
+
+    @PrePersist
+    public void createEntity() {
+        createDate = LocalDateTime.now();
+        updateDate = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void updateEntity() {
+        updateDate = LocalDateTime.now();
+    }
 }

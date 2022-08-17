@@ -45,7 +45,14 @@ public class User {
     @Column(name = "create_date", nullable = false)
     private LocalDateTime createDate;
 
+    @PrePersist
+    public void createEntity() {
+        createDate = LocalDateTime.now();
+        updateDate = LocalDateTime.now();
+    }
 
-//    @PrePersist
-//    public void
+    @PreUpdate
+    public void updateEntity() {
+        updateDate = LocalDateTime.now();
+    }
 }
