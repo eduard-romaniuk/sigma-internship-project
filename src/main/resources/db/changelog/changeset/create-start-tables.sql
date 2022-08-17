@@ -2,8 +2,8 @@
 -- changeset Millrocious:create-table-statistic_data
 CREATE TABLE IF NOT EXISTS statistic_data(
      id BIGSERIAL NOT NULL PRIMARY KEY,
-     date DATE NOT NULL,
-     day INTEGER NOT NULL,
+     war_date DATE NOT NULL,
+     day_number INTEGER NOT NULL,
      personal_units INTEGER NOT NULL,
      tanks INTEGER NOT NULL,
      armoured_fighting_vehicles INTEGER NOT NULL,
