@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS statistic_data(
      id BIGSERIAL NOT NULL PRIMARY KEY,
      war_date DATE NOT NULL,
      day_number INTEGER NOT NULL,
-     personal_units INTEGER NOT NULL,
+     personnel_units INTEGER NOT NULL,
      tanks INTEGER NOT NULL,
      armoured_fighting_vehicles INTEGER NOT NULL,
      artillery_systems INTEGER NOT NULL,
@@ -46,3 +46,7 @@ CREATE TABLE IF NOT EXISTS "user"(
      update_date timestamp NOT NULL,
      create_date timestamp NOT NULL
 );
+
+INSERT INTO locale (name, iso_code) VALUES
+    ('Українська', 'ua'),
+    ('English', 'en');
