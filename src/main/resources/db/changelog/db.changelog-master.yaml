@@ -1,5 +1,5 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/create-table-twit.sql
+      file: db/changelog/changeset/create-table-twit.sql
   - include:
-      file: db/changelog/create-start-tables.sql
+      file: db/changelog/changeset/create-start-tables.sql
