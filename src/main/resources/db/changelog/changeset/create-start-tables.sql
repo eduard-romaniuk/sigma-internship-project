@@ -1,5 +1,5 @@
 -- liquibase formatted sql
--- changeset Millrocious:create-table-statistic_data
+-- changeset Millrocious:init-database
 CREATE TABLE IF NOT EXISTS statistic_data(
      id BIGSERIAL NOT NULL PRIMARY KEY,
      war_date DATE NOT NULL,
@@ -20,7 +20,6 @@ CREATE TABLE IF NOT EXISTS statistic_data(
      atgm_srbm_systems INTEGER NOT NULL
 );
 
--- changeset Millrocious:create-table-fund
 CREATE TABLE IF NOT EXISTS fund(
    id BIGSERIAL NOT NULL PRIMARY KEY,
    name varchar(255) NOT NULL,
@@ -30,14 +29,12 @@ CREATE TABLE IF NOT EXISTS fund(
    create_date timestamp NOT NULL
 );
 
--- changeset Millrocious:create-table-locale
 CREATE TABLE IF NOT EXISTS locale(
      id BIGSERIAL NOT NULL PRIMARY KEY,
      name varchar(255) NOT NULL,
      iso_code varchar(2) NOT NULL
 );
 
--- changeset Millrocious:create-table-user
 CREATE TABLE IF NOT EXISTS "user"(
      id BIGSERIAL NOT NULL PRIMARY KEY,
      name varchar(255) NOT NULL,
