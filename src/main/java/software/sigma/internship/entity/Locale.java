@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity(name = "locale")
 @Table(name = "locale")
@@ -21,12 +20,9 @@ public class Locale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "iso_code", nullable = false, length = 2)
+    @Column(name = "iso_code", nullable = false, unique = true, length = 2)
     private String isoCode;
-
-    @OneToMany(mappedBy = "locale")
-    private List<User> users;
 }
