@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
       file: db/changelog/create-table-twit.sql
+  - include:
+      file: db/changelog/create-start-tables.sql
