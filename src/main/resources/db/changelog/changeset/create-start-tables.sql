@@ -2,8 +2,8 @@
 -- changeset Millrocious:create-table-statistic_data
 CREATE TABLE IF NOT EXISTS statistic_data(
      id BIGSERIAL NOT NULL PRIMARY KEY,
-     date_current DATE NOT NULL,
-     day_current INTEGER NOT NULL,
+     date DATE NOT NULL,
+     day INTEGER NOT NULL,
      personal_units INTEGER NOT NULL,
      tanks INTEGER NOT NULL,
      armoured_fighting_vehicles INTEGER NOT NULL,
@@ -25,7 +25,9 @@ CREATE TABLE IF NOT EXISTS fund(
    id BIGSERIAL NOT NULL PRIMARY KEY,
    name varchar(255) NOT NULL,
    description text NOT NULL,
-   link varchar(255) NOT NULL
+   link varchar(255) NOT NULL,
+   update_date timestamp NOT NULL,
+   create_date timestamp NOT NULL
 );
 
 -- changeset Millrocious:create-table-locale
@@ -43,5 +45,7 @@ CREATE TABLE IF NOT EXISTS "user"(
      password varchar(255) NOT NULL,
      role varchar(255) NOT NULL,
      locale_id INTEGER NOT NULL REFERENCES locale (id),
-     subscription varchar(255) NOT NULL
+     subscription varchar(255) NOT NULL,
+     update_date timestamp NOT NULL,
+     create_date timestamp NOT NULL
 );
