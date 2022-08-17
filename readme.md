@@ -2,7 +2,8 @@
 
 ## Resources
 - [Heroku Application](https://sigma-internship-project.herokuapp.com/swagger-ui/index.html)
-- [JIRA](https://sigma-internship-project.atlassian.net/jira/software/c/projects/SIP/boards/1)
+- [JIRA](https://sigma-internship-project.atlassian.net/jira/software/projects/RIP/boards/2)
+- [Confluence](https://sigma-internship-project.atlassian.net/wiki/spaces/SIGMAINTER/pages)
 
 ## How to set up local environment
 1) Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
