@@ -6,9 +6,10 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity(name = "fund")
+@Table(name = "fund")
 @Getter
 @Setter
 @ToString
@@ -16,30 +17,22 @@ import java.util.Date;
 public class Fund {
 
     @Id
-    @Column(name = "id",
-            nullable = false)
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    @Column(name = "name",
-            nullable = false)
-    String name;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Column(name = "description",
-            columnDefinition = "TEXT",
-            nullable = false
-    )
-    String description;
+    @Column(name = "description", columnDefinition = "TEXT", nullable = false)
+    private String description;
 
-    @Column(name = "link",
-            nullable = false)
-    String link;
+    @Column(name = "link", nullable = false)
+    private String link;
 
-    @Column(name = "update_date",
-            nullable = false)
-    private Date updateDate;
+    @Column(name = "update_date", nullable = false)
+    private LocalDateTime updateDate;
 
-    @Column(name = "create_date",
-            nullable = false)
-    private Date createDate;
+    @Column(name = "create_date", nullable = false)
+    private LocalDateTime createDate;
 }
