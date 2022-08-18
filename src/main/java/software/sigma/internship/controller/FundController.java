@@ -8,11 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import software.sigma.internship.dto.FundDto;
+import software.sigma.internship.entity.Fund;
+import software.sigma.internship.repository.FundRepository;
 import software.sigma.internship.service.FundService;
 
 @Tag(name = "Fund controller")
@@ -21,6 +21,7 @@ import software.sigma.internship.service.FundService;
 @RequestMapping("/fund")
 public class FundController {
     private final FundService fundService;
+    private final FundRepository fundRepository;
 
     @Operation(summary = "Find all funds")
     @ApiResponses({
@@ -40,5 +41,48 @@ public class FundController {
     @GetMapping("/{id}")
     public FundDto findById(@PathVariable long id) {
         return fundService.findById(id);
+    }
+
+    @Operation(summary = "add fund")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "fund successfully created")
+    })
+
+    @PostMapping("/add")
+    public ResponseEntity<String> addFund(@RequestBody Fund newFund) {
+        try {
+            fundRepository.save(newFund);
+            return ResponseEntity.ok("Fund successfully added!");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("error");
+        }
+    }
+
+    @Operation(summary = "delete fund by id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "fund successfully deleted")
+    })
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<String> deleteFundById(@PathVariable long id) {
+        try {
+            fundRepository.deleteById(id);
+            return ResponseEntity.ok("Fund successfully deleted!");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("error");
+        }
+    }
+
+    @Operation(summary = "update fund by id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "fund successfully updated")
+    })
+    @PostMapping("/update/{id}")
+    public ResponseEntity<String> updateFundById(@PathVariable long id, @RequestBody Fund fund) {
+        try {
+            fundService.update(id, fund);
+            return ResponseEntity.ok("Fund successfully updated!");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("error");
+        }
     }
 }

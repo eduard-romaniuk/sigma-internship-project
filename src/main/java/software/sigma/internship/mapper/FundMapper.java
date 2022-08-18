@@ -6,5 +6,5 @@ import software.sigma.internship.entity.Fund;
 
 @Mapper(componentModel = "spring")
 public interface FundMapper {
-    FundDto toDto(Fund twit);
+    FundDto toDto(Fund fund);
 }
