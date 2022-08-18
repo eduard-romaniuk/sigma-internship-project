@@ -22,20 +22,20 @@ import software.sigma.internship.service.FundService;
 public class FundController {
     private final FundService fundService;
 
-    @Operation(summary = "Find all twits")
+    @Operation(summary = "Find all funds")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Page of twits")
+            @ApiResponse(responseCode = "200", description = "Page of funds")
     })
     @GetMapping
     public Page<FundDto> findAll(@ParameterObject Pageable pageable) {
         return fundService.findAll(pageable);
     }
 
-    @Operation(summary = "Find twit by id")
+    @Operation(summary = "Find fund by id")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Found the twit"),
+            @ApiResponse(responseCode = "200", description = "Found the fund"),
             @ApiResponse(responseCode = "400", description = "Invalid id supplied"),
-            @ApiResponse(responseCode = "404", description = "Twit not found")
+            @ApiResponse(responseCode = "404", description = "fund not found")
     })
     @GetMapping("/{id}")
     public FundDto findById(@PathVariable long id) {
