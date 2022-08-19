@@ -11,7 +11,6 @@ import software.sigma.internship.exception.WebException;
 import software.sigma.internship.mapper.FundMapper;
 import software.sigma.internship.repository.FundRepository;
 
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -33,13 +32,11 @@ public class FundServiceImpl implements FundService {
     }
 
     @Override
-    public void update(long id, Fund fund) {
-        Fund fundToUpdate = fundRepository.findById(id).orElse(null);
-        assert fundToUpdate != null;
-        fundToUpdate.setName(fund.getName());
-        fundToUpdate.setDescription(fund.getDescription());
-        fundToUpdate.setLink(fund.getLink());
-        fundToUpdate.setUpdateDate(LocalDateTime.now());
-        fundRepository.save(fundToUpdate);
+    public void update(long id, FundDto fund) {
+        Fund entity = fundRepository.findById(id)
+                .orElseThrow(() -> new WebException(HttpStatus.NOT_FOUND, "Fund not found"));
+
+        fundMapper.updateEntity(fund, entity);
+        fundRepository.save(entity);
     }
 }
