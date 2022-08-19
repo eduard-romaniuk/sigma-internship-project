@@ -8,11 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import software.sigma.internship.dto.FundDto;
-import software.sigma.internship.mapper.FundMapper;
-import software.sigma.internship.repository.FundRepository;
 import software.sigma.internship.service.FundService;
 
 @Tag(name = "Fund controller")
@@ -21,8 +19,6 @@ import software.sigma.internship.service.FundService;
 @RequestMapping("/fund")
 public class FundController {
     private final FundService fundService;
-    private final FundRepository fundRepository;
-    private final FundMapper fundMapper;
 
     @Operation(summary = "Find all funds")
     @ApiResponses({
@@ -48,29 +44,29 @@ public class FundController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "fund successfully created")
     })
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public FundDto addFund(@RequestBody FundDto newFund) {
-        fundRepository.save(fundMapper.toEntity(newFund));
-        return newFund;
+    public void addFund(@RequestBody FundDto newFund) {
+        fundService.save(newFund);
     }
 
     @Operation(summary = "delete fund by id")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "fund successfully deleted")
     })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteFundById(@PathVariable long id) {
-        fundRepository.deleteById(id);
-        return ResponseEntity.ok("fund Successfully deleted!");
+    public void deleteFundById(@PathVariable long id) {
+        fundService.remove(id);
     }
 
     @Operation(summary = "update fund by id")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "fund successfully updated")
     })
+    @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/{id}")
     public FundDto updateFundById(@PathVariable long id, @RequestBody FundDto fund) {
-        fundService.update(id, fund);
-        return fund;
+        return fundService.update(id, fund);
     }
 }

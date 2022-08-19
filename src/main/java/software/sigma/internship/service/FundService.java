@@ -9,5 +9,9 @@ public interface FundService {
 
     FundDto findById(long id);
 
-    void update(long id, FundDto fund);
+    FundDto update(long id, FundDto fund);
+
+    void save(FundDto fund);
+
+    void remove(long id);
 }

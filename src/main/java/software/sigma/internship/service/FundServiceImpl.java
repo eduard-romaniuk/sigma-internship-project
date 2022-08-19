@@ -32,11 +32,22 @@ public class FundServiceImpl implements FundService {
     }
 
     @Override
-    public void update(long id, FundDto fund) {
+    public FundDto update(long id, FundDto fund) {
         Fund entity = fundRepository.findById(id)
                 .orElseThrow(() -> new WebException(HttpStatus.NOT_FOUND, "Fund not found"));
 
         fundMapper.updateEntity(fund, entity);
         fundRepository.save(entity);
+        return fundMapper.toDto(entity);
+    }
+
+    @Override
+    public void save(FundDto fund) {
+        fundRepository.save(fundMapper.toEntity(fund));
+    }
+
+    @Override
+    public void remove(long id) {
+        fundRepository.deleteById(id);
     }
 }
