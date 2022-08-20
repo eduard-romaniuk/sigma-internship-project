@@ -11,10 +11,10 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import software.sigma.internship.dto.FundDto;
 
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -34,7 +34,8 @@ public class FundControllerTest {
         void successful() throws Exception {
             mockMvc.perform(get("/fund"))
                     .andDo(print())
-                    .andExpect(status().isOk());
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.content.size()", greaterThan(0)));
         }
     }
 
@@ -58,7 +59,7 @@ public class FundControllerTest {
 
     @Nested
     public class AddFund {
-        FundDto testEntity = new FundDto(0, "test fund", "test fund desc", "test fund link");
+        FundDto testEntity = new FundDto(3, "test fund", "test fund desc", "test fund link");
 
         @Test
         void successful() throws Exception {
@@ -67,7 +68,9 @@ public class FundControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON))
                     .andDo(print())
-                    .andExpect(status().isCreated());
+                    .andExpect(status().isCreated())
+                    .andExpect(jsonPath("$.name").value(testEntity.name()))
+                    .andExpect(jsonPath("$.id", notNullValue()));
         }
     }
 

@@ -46,8 +46,9 @@ public class FundController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void addFund(@RequestBody FundDto newFund) {
+    public FundDto addFund(@RequestBody FundDto newFund) {
         fundService.save(newFund);
+        return newFund;
     }
 
     @Operation(summary = "delete fund by id")
