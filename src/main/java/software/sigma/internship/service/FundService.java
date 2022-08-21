@@ -11,7 +11,7 @@ public interface FundService {
 
     FundDto update(long id, FundDto fund);
 
-    void save(FundDto fund);
+    FundDto save(FundDto fund);
 
     void remove(long id);
 }

@@ -42,8 +42,8 @@ public class FundServiceImpl implements FundService {
     }
 
     @Override
-    public void save(FundDto fund) {
-        fundRepository.save(fundMapper.toEntity(fund));
+    public FundDto save(FundDto fund) {
+        return fundMapper.toDto(fundRepository.save(fundMapper.toEntity(fund)));
     }
 
     @Override
