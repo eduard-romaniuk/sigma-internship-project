@@ -17,7 +17,7 @@
         <java.version>17</java.version>
         <mapstruct.version>1.5.2.Final</mapstruct.version>
         <pmd.version>3.17.0</pmd.version>
-        <openapi.version>1.6.10</openapi.version>
+        <openapi.version>1.6.11</openapi.version>
         <jacoco.version>0.8.8</jacoco.version>
     </properties>
     <dependencies>
