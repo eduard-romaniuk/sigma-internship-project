@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import software.sigma.internship.dto.FundDto;
 import software.sigma.internship.service.FundService;
 
+import javax.validation.Valid;
+
 @Tag(name = "Fund controller")
 @RestController
 @RequiredArgsConstructor
@@ -46,7 +48,7 @@ public class FundController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public FundDto addFund(@RequestBody FundDto newFund) {
+    public FundDto addFund(@Valid @RequestBody FundDto newFund) {
         return fundService.save(newFund);
     }
 
@@ -66,7 +68,7 @@ public class FundController {
     })
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/{id}")
-    public FundDto updateFundById(@PathVariable long id, @RequestBody FundDto fund) {
+    public FundDto updateFundById(@PathVariable long id, @Valid @RequestBody FundDto fund) {
         return fundService.update(id, fund);
     }
 }

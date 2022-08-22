@@ -60,6 +60,7 @@ public class FundControllerTest {
     @Nested
     public class AddFund {
         FundDto testEntity = new FundDto(3, "test fund", "test fund desc", "test fund link");
+        FundDto testInvalidEntity = new FundDto(3, "", "", "test fund link");
 
         @Test
         void successful() throws Exception {
@@ -71,6 +72,16 @@ public class FundControllerTest {
                     .andExpect(status().isCreated())
                     .andExpect(jsonPath("$.name").value(testEntity.name()))
                     .andExpect(jsonPath("$.id", notNullValue()));
+        }
+
+        @Test
+        void badRequest() throws Exception {
+            mockMvc.perform(post("/fund")
+                    .content(objectMapper.writeValueAsString(testInvalidEntity))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isBadRequest());
         }
     }
 
@@ -89,6 +100,7 @@ public class FundControllerTest {
     public class UpdateFundById {
         FundDto testEntity = new FundDto(0, "updated test fund",
                 "updated test fund desc", "updated test fund link");
+        FundDto testInvalidEntity = new FundDto(0, "", "", "updated test fund link");
 
         @Test
         void successful() throws Exception {
@@ -101,6 +113,16 @@ public class FundControllerTest {
                     .andExpect(jsonPath("$.name").value(testEntity.name()))
                     .andExpect(jsonPath("$.description").value(testEntity.description()))
                     .andExpect(jsonPath("$.link").value(testEntity.link()));
+        }
+
+        @Test
+        void badRequest() throws Exception {
+            mockMvc.perform(put("/fund/1")
+                    .content(objectMapper.writeValueAsString(testInvalidEntity))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isBadRequest());
         }
     }
 }
