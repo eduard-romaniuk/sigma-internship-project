@@ -19,6 +19,7 @@
         <pmd.version>3.17.0</pmd.version>
         <openapi.version>1.6.10</openapi.version>
         <jacoco.version>0.8.8</jacoco.version>
+        <awaitility.version>3.1.2</awaitility.version>
     </properties>
     <dependencies>
         <dependency>
@@ -67,6 +68,11 @@
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>${awaitility.version}</version>
         </dependency>
     </dependencies>
 

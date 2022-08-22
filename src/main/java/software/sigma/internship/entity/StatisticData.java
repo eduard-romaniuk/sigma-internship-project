@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity(name = "statistic_data")
 @Table(name = "statistic_data")
@@ -22,7 +22,7 @@ public class StatisticData {
     private long id;
 
     @Column(name = "war_date", nullable = false)
-    private LocalDateTime warDate;
+    private LocalDate warDate;
 
     @Column(name = "day_number", nullable = false)
     private int dayNumber;
