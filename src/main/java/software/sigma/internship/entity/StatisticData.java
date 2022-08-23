@@ -21,10 +21,10 @@ public class StatisticData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "war_date", nullable = false)
+    @Column(name = "war_date", nullable = false, unique = true)
     private LocalDate warDate;
 
-    @Column(name = "day_number", nullable = false)
+    @Column(name = "day_number", nullable = false, unique = true)
     private int dayNumber;
 
     @Column(name = "personnel_units", nullable = false)

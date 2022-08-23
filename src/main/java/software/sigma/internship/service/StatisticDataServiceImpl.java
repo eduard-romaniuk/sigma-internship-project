@@ -17,7 +17,7 @@ public class StatisticDataServiceImpl implements StatisticDataService {
     @Override
     public StatisticDataDto findLatest() {
         return statisticDataRepository
-                .findFirstByOrderByDayNumberAsc()
+                .findFirstByOrderByDayNumberDesc()
                 .map(statisticDataMapper::toDto)
                 .orElseThrow(() -> new WebException(HttpStatus.NOT_FOUND, "Latest statistic data not found"));
     }

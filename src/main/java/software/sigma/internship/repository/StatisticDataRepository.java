@@ -10,5 +10,5 @@ public interface StatisticDataRepository extends JpaRepository<StatisticData, Lo
 
     Optional<StatisticData> findByWarDate(LocalDate date);
 
-    Optional<StatisticData> findFirstByOrderByDayNumberAsc();
+    Optional<StatisticData> findFirstByOrderByDayNumberDesc();
 }
