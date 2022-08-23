@@ -19,6 +19,7 @@
         <pmd.version>3.17.0</pmd.version>
         <openapi.version>1.6.11</openapi.version>
         <jacoco.version>0.8.8</jacoco.version>
+        <validation.version>2.7.3</validation.version>
     </properties>
     <dependencies>
         <dependency>
@@ -71,7 +72,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
-            <version>2.7.3</version>
+            <version>${validation.version}</version>
         </dependency>
     </dependencies>
 
