@@ -45,7 +45,7 @@ public class StatisticDataServiceImpl implements StatisticDataService {
                     .boxed()
                     .collect(Collectors.toMap(dateList::get, lossValuesList::get));
         } else {
-            throw new WebException(HttpStatus.NO_CONTENT, "Losses not found");
+            throw new WebException(HttpStatus.NOT_FOUND, "Losses not found");
         }
     }
 
@@ -58,7 +58,7 @@ public class StatisticDataServiceImpl implements StatisticDataService {
                     .min(Comparator.comparingInt(o -> o))
                     .orElseThrow(() -> new WebException(HttpStatus.NOT_FOUND, "Min not found"));
         } else {
-            throw new WebException(HttpStatus.NO_CONTENT, "Losses not found");
+            throw new WebException(HttpStatus.NOT_FOUND, "Losses not found");
         }
     }
 
@@ -71,7 +71,7 @@ public class StatisticDataServiceImpl implements StatisticDataService {
                     .max(Comparator.comparingInt(o -> o))
                     .orElseThrow(() -> new WebException(HttpStatus.NOT_FOUND, "Max not found"));
         } else {
-            throw new WebException(HttpStatus.NO_CONTENT, "Losses not found");
+            throw new WebException(HttpStatus.NOT_FOUND, "Losses not found");
         }
     }
 
@@ -85,7 +85,7 @@ public class StatisticDataServiceImpl implements StatisticDataService {
                     .average()
                     .orElseThrow(() -> new WebException(HttpStatus.NOT_FOUND, "Mean not found"));
         } else {
-            throw new WebException(HttpStatus.NO_CONTENT, "Losses not found");
+            throw new WebException(HttpStatus.NOT_FOUND, "Losses not found");
         }
     }
 
@@ -102,7 +102,7 @@ public class StatisticDataServiceImpl implements StatisticDataService {
                 return (list.get(list.size() / 2 - 1) + list.get(list.size() / 2)) / 2.0;
             }
         } else {
-            throw new WebException(HttpStatus.NO_CONTENT, "Losses not found");
+            throw new WebException(HttpStatus.NOT_FOUND, "Losses not found");
         }
     }
 
