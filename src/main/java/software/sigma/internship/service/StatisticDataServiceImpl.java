@@ -49,6 +49,63 @@ public class StatisticDataServiceImpl implements StatisticDataService {
         }
     }
 
+    @Override
+    public Integer getMin(String lossType) {
+        List<StatisticData> statisticDataList = statisticDataRepository.findAll();
+        if (statisticDataList.size() > 0) {
+            return getLossValuesList(statisticDataList, lossType)
+                    .stream()
+                    .min(Comparator.comparingInt(o -> o))
+                    .orElseThrow(() -> new WebException(HttpStatus.NOT_FOUND, "Min not found"));
+        } else {
+            throw new WebException(HttpStatus.NO_CONTENT, "Losses not found");
+        }
+    }
+
+    @Override
+    public Integer getMax(String lossType) {
+        List<StatisticData> statisticDataList = statisticDataRepository.findAll();
+        if (statisticDataList.size() > 0) {
+            return getLossValuesList(statisticDataList, lossType)
+                    .stream()
+                    .max(Comparator.comparingInt(o -> o))
+                    .orElseThrow(() -> new WebException(HttpStatus.NOT_FOUND, "Max not found"));
+        } else {
+            throw new WebException(HttpStatus.NO_CONTENT, "Losses not found");
+        }
+    }
+
+    @Override
+    public Double getMean(String lossType) {
+        List<StatisticData> statisticDataList = statisticDataRepository.findAll();
+        if (statisticDataList.size() > 0) {
+            return getLossValuesList(statisticDataList, lossType)
+                    .stream()
+                    .mapToDouble(a -> a)
+                    .average()
+                    .orElseThrow(() -> new WebException(HttpStatus.NOT_FOUND, "Mean not found"));
+        } else {
+            throw new WebException(HttpStatus.NO_CONTENT, "Losses not found");
+        }
+    }
+
+    @Override
+    public Double getMedian(String lossType) {
+        List<StatisticData> statisticDataList = statisticDataRepository.findAll();
+        if (statisticDataList.size() > 0) {
+            List<Integer> list = getLossValuesList(statisticDataList, lossType);
+            Collections.sort(list);
+
+            if (list.size() % 2 == 1)
+                return list.get((list.size() + 1) / 2 - 1) * 1.0;
+            else {
+                return (list.get(list.size() / 2 - 1) + list.get(list.size() / 2)) / 2.0;
+            }
+        } else {
+            throw new WebException(HttpStatus.NO_CONTENT, "Losses not found");
+        }
+    }
+
     private List<Integer> getLossValuesList(List<StatisticData> statisticDataList, String lossType) {
         List<Integer> lossValuesList;
         switch (lossType) {

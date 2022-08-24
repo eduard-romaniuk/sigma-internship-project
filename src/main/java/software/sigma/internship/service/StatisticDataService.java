@@ -11,4 +11,12 @@ public interface StatisticDataService {
     void save(StatisticDataDto statisticDataDto);
 
     Map<LocalDate, Integer> getLossDataset(String lossType);
+
+    Integer getMin(String lossType);
+
+    Integer getMax(String lossType);
+
+    Double getMean(String lossType);
+
+    Double getMedian(String lossType);
 }

@@ -44,4 +44,47 @@ public class StatisticDataController {
         return statisticDataService.getLossDataset(lossType);
     }
 
+    @Operation(summary = "Get min of loses by type")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Min calculated"),
+            @ApiResponse(responseCode = "400", description = "Invalid loss type supplied"),
+            @ApiResponse(responseCode = "404", description = "Losses not found")
+    })
+    @GetMapping("/min")
+    public Integer getMinByLossType(@RequestParam(value = "lossType", defaultValue = "personnel_units") String lossType) {
+        return statisticDataService.getMin(lossType);
+    }
+
+    @Operation(summary = "Get max of loses by type")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Max calculated"),
+            @ApiResponse(responseCode = "400", description = "Invalid loss type supplied"),
+            @ApiResponse(responseCode = "404", description = "Losses not found")
+    })
+    @GetMapping("/max")
+    public Integer getMaxByLossType(@RequestParam(value = "lossType", defaultValue = "personnel_units") String lossType) {
+        return statisticDataService.getMax(lossType);
+    }
+
+    @Operation(summary = "Get mean of loses by type")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Mean calculated"),
+            @ApiResponse(responseCode = "400", description = "Invalid loss type supplied"),
+            @ApiResponse(responseCode = "404", description = "Losses not found")
+    })
+    @GetMapping("/mean")
+    public Double getMeanByLossType(@RequestParam(value = "lossType", defaultValue = "personnel_units") String lossType) {
+        return statisticDataService.getMean(lossType);
+    }
+
+    @Operation(summary = "Get median of loses by type")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Median calculated"),
+            @ApiResponse(responseCode = "400", description = "Invalid loss type supplied"),
+            @ApiResponse(responseCode = "404", description = "Losses not found")
+    })
+    @GetMapping("/median")
+    public Double getMedianByLossType(@RequestParam(value = "lossType", defaultValue = "personnel_units") String lossType) {
+        return statisticDataService.getMedian(lossType);
+    }
 }
