@@ -59,7 +59,9 @@ public class FundControllerTest {
 
     @Nested
     public class AddFund {
-        FundDto testEntity = new FundDto(3, "test fund", "test fund desc", "test fund link");
+        FundDto testEntity = new FundDto(3, "test fund", "test fund desc", "test_fund_site.com");
+        FundDto testInvalidEntity = new FundDto(3, "", "", "test fund link");
+        FundDto testInvalidURLEntity = new FundDto(3, "test fund", "test fund desc", "testfundlink");
 
         @Test
         void successful() throws Exception {
@@ -71,6 +73,26 @@ public class FundControllerTest {
                     .andExpect(status().isCreated())
                     .andExpect(jsonPath("$.name").value(testEntity.name()))
                     .andExpect(jsonPath("$.id", notNullValue()));
+        }
+
+        @Test
+        void blankField() throws Exception {
+            mockMvc.perform(post("/fund")
+                    .content(objectMapper.writeValueAsString(testInvalidEntity))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        void invalidURL() throws Exception {
+            mockMvc.perform(post("/fund")
+                    .content(objectMapper.writeValueAsString(testInvalidURLEntity))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isBadRequest());
         }
     }
 
@@ -88,7 +110,10 @@ public class FundControllerTest {
     @Nested
     public class UpdateFundById {
         FundDto testEntity = new FundDto(0, "updated test fund",
-                "updated test fund desc", "updated test fund link");
+                "updated test fund desc", "http://updated_test_fund_link.com");
+        FundDto testBlankEntity = new FundDto(0, "", "", "updated test fund link");
+        FundDto testInvalidURLEntity = new FundDto(0, "updated test fund",
+                "updated test fund desc", "http://updated_test_fund_link");
 
         @Test
         void successful() throws Exception {
@@ -101,6 +126,26 @@ public class FundControllerTest {
                     .andExpect(jsonPath("$.name").value(testEntity.name()))
                     .andExpect(jsonPath("$.description").value(testEntity.description()))
                     .andExpect(jsonPath("$.link").value(testEntity.link()));
+        }
+
+        @Test
+        void blankField() throws Exception {
+            mockMvc.perform(put("/fund/1")
+                    .content(objectMapper.writeValueAsString(testBlankEntity))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        void invalidURL() throws Exception {
+            mockMvc.perform(put("/fund/1")
+                    .content(objectMapper.writeValueAsString(testInvalidURLEntity))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isBadRequest());
         }
     }
 }
