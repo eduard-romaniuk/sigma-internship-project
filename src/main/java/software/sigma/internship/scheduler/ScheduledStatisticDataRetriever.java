@@ -18,7 +18,7 @@ public class ScheduledStatisticDataRetriever {
     private final StatisticDataService statisticDataService;
     private final StatisticDataMapper statisticDataMapper;
 
-    @Scheduled(cron = "#{@schedulerProperties.cronDaily}")
+    @Scheduled(cron = "0 0 10 * * ?")
     public void updateStatisticData() {
         StatisticDataDto statisticDataDtoAPI = warAPIService.getLatestStatistics();
         LocalDate newDate = statisticDataMapper.toEntity(statisticDataDtoAPI).getWarDate();
