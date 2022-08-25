@@ -25,8 +25,7 @@ public class StatisticDataController {
 
     @Operation(summary = "Find latest statistic data")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Found latest statistic data"),
-            @ApiResponse(responseCode = "404", description = "Latest statistic data not found")
+            @ApiResponse(responseCode = "200", description = "Found latest statistic data")
     })
     @GetMapping("/latest")
     public StatisticDataDto findLatest() {
