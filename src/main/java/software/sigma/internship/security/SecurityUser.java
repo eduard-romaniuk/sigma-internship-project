@@ -7,7 +7,10 @@ import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import software.sigma.internship.entity.User;
 
+import java.io.Serial;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,24 +19,26 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 public class SecurityUser implements UserDetails {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-    private final String username;
-    private final String password;
-    private final List<SimpleGrantedAuthority> authorities;
+    private final User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
         return authorities;
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return user.getName();
     }
 
     @Override
@@ -56,11 +61,4 @@ public class SecurityUser implements UserDetails {
         return true;
     }
 
-//    public static UserDetails fromUser(User user) {
-//        return new org.springframework.security.core.userdetails.User(
-//                user.getEmail(), user.getPassword(),
-//                true, true, true, true,
-//                user.getRole().getAuthority()
-//        )
-//    }
 }
