@@ -8,3 +8,6 @@ spring:
 springdoc:
   packages-to-scan: software.sigma.internship.controller
   paths-to-match: /**
+
+scheduler:
+  cronDaily: '0 0 10 * * ?'

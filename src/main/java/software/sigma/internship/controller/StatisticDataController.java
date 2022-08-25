@@ -37,8 +37,7 @@ public class StatisticDataController {
     @Operation(summary = "Get dataset by type of loss")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Dataset is fetched"),
-            @ApiResponse(responseCode = "400", description = "Invalid loss type supplied"),
-            @ApiResponse(responseCode = "404", description = "Losses not found")
+            @ApiResponse(responseCode = "400", description = "Invalid loss type supplied")
     })
     @GetMapping("/dataset")
     public Map<LocalDate, Integer> getDatasetByLossType(@RequestParam(value = "lossType", defaultValue = "personnel_units") String lossType) {
