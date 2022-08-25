@@ -45,7 +45,7 @@ public class StatisticDataServiceImpl implements StatisticDataService {
                     .boxed()
                     .collect(Collectors.toMap(dateList::get, lossValuesList::get));
         } else {
-            throw new WebException(HttpStatus.NOT_FOUND, "Losses not found");
+            return null;
         }
     }
 
@@ -56,9 +56,9 @@ public class StatisticDataServiceImpl implements StatisticDataService {
             return getLossValuesList(statisticDataList, lossType)
                     .stream()
                     .min(Comparator.comparingInt(o -> o))
-                    .orElseThrow(() -> new WebException(HttpStatus.NOT_FOUND, "Min not found"));
+                    .orElse(0);
         } else {
-            throw new WebException(HttpStatus.NOT_FOUND, "Losses not found");
+            return null;
         }
     }
 
@@ -69,9 +69,9 @@ public class StatisticDataServiceImpl implements StatisticDataService {
             return getLossValuesList(statisticDataList, lossType)
                     .stream()
                     .max(Comparator.comparingInt(o -> o))
-                    .orElseThrow(() -> new WebException(HttpStatus.NOT_FOUND, "Max not found"));
+                    .orElse(0);
         } else {
-            throw new WebException(HttpStatus.NOT_FOUND, "Losses not found");
+            return null;
         }
     }
 
@@ -83,9 +83,9 @@ public class StatisticDataServiceImpl implements StatisticDataService {
                     .stream()
                     .mapToDouble(a -> a)
                     .average()
-                    .orElseThrow(() -> new WebException(HttpStatus.NOT_FOUND, "Mean not found"));
+                    .orElse(0.0);
         } else {
-            throw new WebException(HttpStatus.NOT_FOUND, "Losses not found");
+            return null;
         }
     }
 
@@ -102,7 +102,7 @@ public class StatisticDataServiceImpl implements StatisticDataService {
                 return (list.get(list.size() / 2 - 1) + list.get(list.size() / 2)) / 2.0;
             }
         } else {
-            throw new WebException(HttpStatus.NOT_FOUND, "Losses not found");
+            return null;
         }
     }
 

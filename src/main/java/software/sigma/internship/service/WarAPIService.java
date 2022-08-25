@@ -8,7 +8,6 @@ public interface WarAPIService {
 
     String PATH_STATISTICS = "statistics";
     String PATH_LATEST = "latest";
-    String PATH_DATE = "{date}";
     String SEPARATOR = "/";
 
     StatisticDataDto getLatestStatistics();
