@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import software.sigma.internship.dto.FundDto;
@@ -31,6 +32,7 @@ public class FundControllerTest {
     @Nested
     public class FindAll {
         @Test
+        @WithMockUser(username = "user", password = "user", authorities = "USER")
         void successful() throws Exception {
             mockMvc.perform(get("/fund"))
                     .andDo(print())
@@ -42,6 +44,7 @@ public class FundControllerTest {
     @Nested
     public class FindById {
         @Test
+        @WithMockUser(username = "user", password = "user", authorities = "USER")
         void successful() throws Exception {
             mockMvc.perform(get("/fund/1"))
                     .andDo(print())
@@ -50,6 +53,7 @@ public class FundControllerTest {
         }
 
         @Test
+        @WithMockUser(username = "user", password = "user", authorities = "USER")
         void notFound() throws Exception {
             mockMvc.perform(get("/fund/3"))
                     .andDo(print())
@@ -64,6 +68,7 @@ public class FundControllerTest {
         FundDto testInvalidURLEntity = new FundDto(3, "test fund", "test fund desc", "testfundlink");
 
         @Test
+        @WithMockUser(username = "admin", password = "admin", authorities = "ADMIN")
         void successful() throws Exception {
             mockMvc.perform(post("/fund")
                     .content(objectMapper.writeValueAsString(testEntity))
@@ -76,6 +81,7 @@ public class FundControllerTest {
         }
 
         @Test
+        @WithMockUser(username = "admin", password = "admin", authorities = "ADMIN")
         void blankField() throws Exception {
             mockMvc.perform(post("/fund")
                     .content(objectMapper.writeValueAsString(testInvalidEntity))
@@ -86,6 +92,7 @@ public class FundControllerTest {
         }
 
         @Test
+        @WithMockUser(username = "admin", password = "admin", authorities = "ADMIN")
         void invalidURL() throws Exception {
             mockMvc.perform(post("/fund")
                     .content(objectMapper.writeValueAsString(testInvalidURLEntity))
@@ -94,16 +101,36 @@ public class FundControllerTest {
                     .andDo(print())
                     .andExpect(status().isBadRequest());
         }
+
+        @Test
+        @WithMockUser(username = "user", password = "user", authorities = "USER")
+        void forbidden() throws Exception {
+            mockMvc.perform(post("/fund")
+                            .content(objectMapper.writeValueAsString(testEntity))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isForbidden());
+        }
     }
 
     @Nested
     public class DeleteFundById {
 
         @Test
+        @WithMockUser(username = "admin", password = "admin", authorities = "ADMIN")
         void successful() throws Exception {
             mockMvc.perform(delete("/fund/1"))
                     .andDo(print())
                     .andExpect(status().isNoContent());
+        }
+
+        @Test
+        @WithMockUser(username = "user", password = "user", authorities = "USER")
+        void forbidden() throws Exception {
+            mockMvc.perform(delete("/fund/1"))
+                    .andDo(print())
+                    .andExpect(status().isForbidden());
         }
     }
 
@@ -116,6 +143,7 @@ public class FundControllerTest {
                 "updated test fund desc", "http://updated_test_fund_link");
 
         @Test
+        @WithMockUser(username = "admin", password = "admin", authorities = "ADMIN")
         void successful() throws Exception {
             mockMvc.perform(put("/fund/1")
                     .content(objectMapper.writeValueAsString(testEntity))
@@ -129,6 +157,7 @@ public class FundControllerTest {
         }
 
         @Test
+        @WithMockUser(username = "admin", password = "admin", authorities = "ADMIN")
         void blankField() throws Exception {
             mockMvc.perform(put("/fund/1")
                     .content(objectMapper.writeValueAsString(testBlankEntity))
@@ -139,6 +168,7 @@ public class FundControllerTest {
         }
 
         @Test
+        @WithMockUser(username = "admin", password = "admin", authorities = "ADMIN")
         void invalidURL() throws Exception {
             mockMvc.perform(put("/fund/1")
                     .content(objectMapper.writeValueAsString(testInvalidURLEntity))
@@ -146,6 +176,17 @@ public class FundControllerTest {
                     .accept(MediaType.APPLICATION_JSON))
                     .andDo(print())
                     .andExpect(status().isBadRequest());
+        }
+
+        @Test
+        @WithMockUser(username = "user", password = "user", authorities = "USER")
+        void forbidden() throws Exception {
+            mockMvc.perform(put("/fund/1")
+                            .content(objectMapper.writeValueAsString(testEntity))
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isForbidden());
         }
     }
 }
