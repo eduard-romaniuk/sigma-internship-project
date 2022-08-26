@@ -3,8 +3,6 @@ package software.sigma.internship.service;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import software.sigma.internship.dto.AuthUserDto;
@@ -14,9 +12,6 @@ import software.sigma.internship.exception.UserAlreadyExistException;
 import software.sigma.internship.exception.WebException;
 import software.sigma.internship.mapper.UserMapper;
 import software.sigma.internship.repository.UserRepository;
-import software.sigma.internship.security.SecurityUser;
-
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -63,14 +58,5 @@ public class UserServiceImpl implements UserService {
 
     private void encodePassword( User userEntity, AuthUserDto user){
         userEntity.setPassword(passwordEncoder.encode(user.password()));
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByName(username);
-        if (user.isEmpty()) {
-            throw new UsernameNotFoundException("User details not found for the user "+username);
-        }
-        return new SecurityUser(user.get());
     }
 }
