@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import software.sigma.internship.dto.CalculatedStatisticDataDto;
+import software.sigma.internship.dto.LossDayDto;
 import software.sigma.internship.dto.StatisticDataDto;
 import software.sigma.internship.service.StatisticDataService;
 
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Tag(name = "Statistic Data controller")
 @RestController
@@ -39,7 +39,7 @@ public class StatisticDataController {
             @ApiResponse(responseCode = "400", description = "Invalid loss type supplied")
     })
     @GetMapping("/dataset")
-    public Map<LocalDate, Integer> getDatasetByLossType(@RequestParam(value = "lossType", defaultValue = "personnel_units") String lossType) {
+    public List<LossDayDto> getDatasetByLossType(@RequestParam(value = "lossType", defaultValue = "personnel_units") String lossType) {
         return statisticDataService.getLossDataset(lossType);
     }
 
@@ -49,13 +49,7 @@ public class StatisticDataController {
             @ApiResponse(responseCode = "400", description = "Invalid loss type supplied"),
     })
     @GetMapping("/math")
-    public Map<String, Number> getMathCalculations(@RequestParam(value = "lossType", defaultValue = "personnel_units") String lossType) {
-        Map<String, Number> calculations = new HashMap<>();
-        calculations.put("max", statisticDataService.getMax(lossType));
-        calculations.put("min", statisticDataService.getMin(lossType));
-        calculations.put("mean", statisticDataService.getMean(lossType));
-        calculations.put("median", statisticDataService.getMedian(lossType));
-
-        return calculations;
+    public CalculatedStatisticDataDto getMathCalculations(@RequestParam(value = "lossType", defaultValue = "personnel_units") String lossType) {
+        return statisticDataService.getCalculations(lossType);
     }
 }

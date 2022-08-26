@@ -3,6 +3,8 @@ package software.sigma.internship.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import software.sigma.internship.dto.CalculatedStatisticDataDto;
+import software.sigma.internship.dto.LossDayDto;
 import software.sigma.internship.dto.StatisticDataDto;
 import software.sigma.internship.entity.StatisticData;
 import software.sigma.internship.exception.WebException;
@@ -13,7 +15,6 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -35,74 +36,55 @@ public class StatisticDataServiceImpl implements StatisticDataService {
     }
 
     @Override
-    public Map<LocalDate, Integer> getLossDataset(String lossType) {
+    public List<LossDayDto> getLossDataset(String lossType) {
         List<StatisticData> statisticDataList = statisticDataRepository.findAll();
         if (statisticDataList.size() > 0) {
             List<Integer> lossValuesList = getLossValuesList(statisticDataList, lossType);
             List<LocalDate> dateList = extractValuesByLossType(statisticDataList, StatisticData::getWarDate);
 
-            return IntStream.range(0, dateList.size())
-                    .boxed()
-                    .collect(Collectors.toMap(dateList::get, lossValuesList::get));
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public Integer getMin(String lossType) {
-        List<StatisticData> statisticDataList = statisticDataRepository.findAll();
-        if (statisticDataList.size() > 0) {
-            return getLossValuesList(statisticDataList, lossType)
-                    .stream()
-                    .min(Comparator.comparingInt(o -> o))
-                    .orElse(0);
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public Integer getMax(String lossType) {
-        List<StatisticData> statisticDataList = statisticDataRepository.findAll();
-        if (statisticDataList.size() > 0) {
-            return getLossValuesList(statisticDataList, lossType)
-                    .stream()
-                    .max(Comparator.comparingInt(o -> o))
-                    .orElse(0);
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public Double getMean(String lossType) {
-        List<StatisticData> statisticDataList = statisticDataRepository.findAll();
-        if (statisticDataList.size() > 0) {
-            return getLossValuesList(statisticDataList, lossType)
-                    .stream()
-                    .mapToDouble(a -> a)
-                    .average()
-                    .orElse(0.0);
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public Double getMedian(String lossType) {
-        List<StatisticData> statisticDataList = statisticDataRepository.findAll();
-        if (statisticDataList.size() > 0) {
-            List<Integer> list = getLossValuesList(statisticDataList, lossType);
-            Collections.sort(list);
-
-            if (list.size() % 2 == 1)
-                return list.get((list.size() + 1) / 2 - 1) * 1.0;
-            else {
-                return (list.get(list.size() / 2 - 1) + list.get(list.size() / 2)) / 2.0;
+            List<LossDayDto> lossDayDtos = new ArrayList<>();
+            for (int i = 0; i < dateList.size(); i++) {
+                lossDayDtos.add(new LossDayDto(dateList.get(i), lossValuesList.get(i)));
             }
+
+            return lossDayDtos;
+
+        } else {
+            return List.of();
+        }
+    }
+
+    @Override
+    public CalculatedStatisticDataDto getCalculations(String lossType) {
+        List<StatisticData> statisticDataList = statisticDataRepository.findAll();
+        if (statisticDataList.size() > 0) {
+            List<Integer> integerList = getLossValuesList(statisticDataList, lossType);
+
+            return new CalculatedStatisticDataDto(
+                    integerList.stream()
+                            .max(Comparator.comparingInt(o -> o))
+                            .orElse(0),
+                    integerList.stream()
+                            .min(Comparator.comparingInt(o -> o))
+                            .orElse(0),
+                    integerList.stream()
+                            .mapToDouble(a -> a)
+                            .average()
+                            .orElse(0.0),
+                    getMedian(integerList)
+            );
         } else {
             return null;
+        }
+    }
+
+    private Double getMedian(List<Integer> list) {
+        Collections.sort(list);
+
+        if (list.size() % 2 == 1)
+            return list.get((list.size() + 1) / 2 - 1) * 1.0;
+        else {
+            return (list.get(list.size() / 2 - 1) + list.get(list.size() / 2)) / 2.0;
         }
     }
 
@@ -111,18 +93,15 @@ public class StatisticDataServiceImpl implements StatisticDataService {
         switch (lossType) {
             case "personnel_units" ->
                     lossValuesList = extractValuesByLossType(statisticDataList, StatisticData::getPersonnelUnits);
-            case "tanks" ->
-                    lossValuesList = extractValuesByLossType(statisticDataList, StatisticData::getTanks);
+            case "tanks" -> lossValuesList = extractValuesByLossType(statisticDataList, StatisticData::getTanks);
             case "armoured_fighting_vehicles" ->
                     lossValuesList = extractValuesByLossType(statisticDataList, StatisticData::getArmouredFightingVehicles);
             case "artillery_systems" ->
                     lossValuesList = extractValuesByLossType(statisticDataList, StatisticData::getArtillerySystems);
-            case "mlrs" ->
-                    lossValuesList = extractValuesByLossType(statisticDataList, StatisticData::getMlrs);
+            case "mlrs" -> lossValuesList = extractValuesByLossType(statisticDataList, StatisticData::getMlrs);
             case "aa_warfare_systems" ->
                     lossValuesList = extractValuesByLossType(statisticDataList, StatisticData::getAaWarfareSystems);
-            case "planes" ->
-                    lossValuesList = extractValuesByLossType(statisticDataList, StatisticData::getPlanes);
+            case "planes" -> lossValuesList = extractValuesByLossType(statisticDataList, StatisticData::getPlanes);
             case "helicopters" ->
                     lossValuesList = extractValuesByLossType(statisticDataList, StatisticData::getHelicopters);
             case "vehicles_fuel_tanks" ->

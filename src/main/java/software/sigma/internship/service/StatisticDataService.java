@@ -1,22 +1,17 @@
 package software.sigma.internship.service;
 
+import software.sigma.internship.dto.CalculatedStatisticDataDto;
+import software.sigma.internship.dto.LossDayDto;
 import software.sigma.internship.dto.StatisticDataDto;
 
-import java.time.LocalDate;
-import java.util.Map;
+import java.util.List;
 
 public interface StatisticDataService {
     StatisticDataDto findLatest();
 
     void save(StatisticDataDto statisticDataDto);
 
-    Map<LocalDate, Integer> getLossDataset(String lossType);
+    List<LossDayDto> getLossDataset(String lossType);
 
-    Integer getMin(String lossType);
-
-    Integer getMax(String lossType);
-
-    Double getMean(String lossType);
-
-    Double getMedian(String lossType);
+    CalculatedStatisticDataDto getCalculations(String lossType);
 }

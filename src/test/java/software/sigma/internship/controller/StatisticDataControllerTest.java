@@ -1,7 +1,5 @@
 package software.sigma.internship.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +7,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.util.Assert;
-
-import java.time.LocalDate;
-import java.util.Map;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -29,9 +22,6 @@ public class StatisticDataControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper objectMapper;
 
     @Nested
     public class FindLatest {
@@ -49,31 +39,19 @@ public class StatisticDataControllerTest {
     public class GetDatasetByLossType {
         @Test
         void noParam() throws Exception {
-            MvcResult result = mockMvc
+            mockMvc
                     .perform(get("/statistic-data/dataset"))
                     .andExpect(status().isOk())
-                    .andReturn();
-            Map<LocalDate, Integer> map = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
-            });
-
-            Assert.isTrue(map.size() == 3, "No 3 values in map: " + map);
+                    .andExpect(jsonPath("$.size()").value(3));
         }
 
         @Test
         void validParam() throws Exception {
-            MvcResult result = mockMvc
+            mockMvc
                     .perform(get("/statistic-data/dataset")
                             .param("lossType", "tanks"))
                     .andExpect(status().isOk())
-                    .andReturn();
-            Map<LocalDate, Integer> map = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
-            });
-
-            Assert.isTrue(
-                    map.get(LocalDate.parse("2010-10-20")) == 2
-                            & map.get(LocalDate.parse("2010-10-21")) == 22
-                            & map.get(LocalDate.parse("2010-10-19")) == 12,
-                    "Dates do not match with its loss tanks values");
+                    .andExpect(jsonPath("$.size()").value(3));
         }
 
         @Test
@@ -90,32 +68,21 @@ public class StatisticDataControllerTest {
 
         @Test
         void noParam() throws Exception {
-            MvcResult result = mockMvc
+            mockMvc
                     .perform(get("/statistic-data/math"))
                     .andExpect(status().isOk())
-                    .andReturn();
-            Map<String, Number> map = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
-            });
-
-            Assert.isTrue(map.size() == 4, "No 4 values in map: " + map);
+                    .andExpect(jsonPath("$.size()").value(4))
+                    .andExpect(jsonPath("$.max").value(21));
         }
 
         @Test
         void validParam() throws Exception {
-            MvcResult result = mockMvc
+            mockMvc
                     .perform(get("/statistic-data/math")
                             .param("lossType", "tanks"))
                     .andExpect(status().isOk())
-                    .andReturn();
-            Map<String, Number> map = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<>() {
-            });
-            System.out.println(map);
-
-            Assert.isTrue(
-                    map.get("max").equals(22)
-                            & map.get("min").equals(2)
-                            & map.get("mean").equals(12.0)
-                            & map.get("median").equals(12.0), "Invalid calculations");
+                    .andExpect(jsonPath("$.size()").value(4))
+                    .andExpect(jsonPath("$.max").value(22));
         }
 
         @Test
