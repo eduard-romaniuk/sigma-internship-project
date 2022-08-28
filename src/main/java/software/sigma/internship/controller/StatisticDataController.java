@@ -25,7 +25,8 @@ public class StatisticDataController {
 
     @Operation(summary = "Find latest statistic data")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Found latest statistic data")
+            @ApiResponse(responseCode = "200", description = "Found latest statistic data"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @GetMapping("/latest")
     public StatisticDataDto findLatest() {
@@ -36,7 +37,8 @@ public class StatisticDataController {
     @Operation(summary = "Get dataset by type of loss")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Dataset is fetched"),
-            @ApiResponse(responseCode = "400", description = "Invalid loss type supplied")
+            @ApiResponse(responseCode = "400", description = "Invalid loss type supplied"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @GetMapping("/dataset")
     public List<LossDayDto> getDatasetByLossType(@RequestParam(value = "lossType", defaultValue = "personnel_units") String lossType) {
@@ -47,6 +49,7 @@ public class StatisticDataController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Calculations are successful"),
             @ApiResponse(responseCode = "400", description = "Invalid loss type supplied"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @GetMapping("/math")
     public CalculatedStatisticDataDto getMathCalculations(@RequestParam(value = "lossType", defaultValue = "personnel_units") String lossType) {

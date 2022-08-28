@@ -1,6 +1,7 @@
 package software.sigma.internship.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import software.sigma.internship.dto.CalculatedStatisticDataDto;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class StatisticDataServiceImpl implements StatisticDataService {
     private final StatisticDataRepository statisticDataRepository;
     private final StatisticDataMapper statisticDataMapper;
@@ -27,7 +29,10 @@ public class StatisticDataServiceImpl implements StatisticDataService {
         return statisticDataRepository
                 .findFirstByOrderByDayNumberDesc()
                 .map(statisticDataMapper::toDto)
-                .orElse(null);
+                .orElseThrow(() -> {
+                    log.error("statisticDataRepository.findFirstByOrderByDayNumberDesc() returned no elements");
+                    return new WebException(HttpStatus.INTERNAL_SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
+                });
     }
 
     @Override
@@ -46,11 +51,10 @@ public class StatisticDataServiceImpl implements StatisticDataService {
             for (int i = 0; i < dateList.size(); i++) {
                 lossDayDtos.add(new LossDayDto(dateList.get(i), lossValuesList.get(i)));
             }
-
             return lossDayDtos;
-
         } else {
-            return List.of();
+            log.error("statisticDataRepository.findAll() returned no elements");
+            throw new WebException(HttpStatus.INTERNAL_SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
         }
     }
 
@@ -74,7 +78,8 @@ public class StatisticDataServiceImpl implements StatisticDataService {
                     getMedian(integerList)
             );
         } else {
-            return null;
+            log.error("statisticDataRepository.findAll() returned no elements");
+            throw new WebException(HttpStatus.INTERNAL_SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
         }
     }
 
