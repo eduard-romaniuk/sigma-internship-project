@@ -1,14 +1,12 @@
 package software.sigma.internship.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import software.sigma.internship.dto.AuthUserDto;
 import software.sigma.internship.dto.UserDto;
 import software.sigma.internship.entity.User;
-import software.sigma.internship.exception.UserAlreadyExistException;
 import software.sigma.internship.exception.WebException;
 import software.sigma.internship.mapper.UserMapper;
 import software.sigma.internship.repository.UserRepository;
@@ -37,23 +35,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto register(AuthUserDto user) throws UserAlreadyExistException {
+    public UserDto register(AuthUserDto user) {
 
         //Let's check if user already registered with us
-        if(checkIfUserExist(user.email(), user.username())){
-            throw new UserAlreadyExistException("User already exists for this email");
+        if(checkIfUserExist(user.email())){
+            throw new WebException(HttpStatus.CONFLICT, "User already exists");
         }
-        User userEntity = new User();
-        BeanUtils.copyProperties(user, userEntity);
+        User userEntity = userMapper.toUser(user);
         encodePassword(userEntity, user);
         return userMapper.toDto(userRepository.save(userEntity));
     }
 
 
     @Override
-    public boolean checkIfUserExist(String email, String username) {
-        return userRepository.findByEmail(email).isPresent()
-                || userRepository.findByName(username).isPresent();
+    public boolean checkIfUserExist(String email) {
+        return userRepository.findByEmail(email).isPresent();
     }
 
     private void encodePassword( User userEntity, AuthUserDto user){
