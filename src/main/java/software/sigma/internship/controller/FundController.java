@@ -9,6 +9,7 @@ import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import software.sigma.internship.dto.FundDto;
 import software.sigma.internship.service.FundService;
@@ -27,6 +28,7 @@ public class FundController {
             @ApiResponse(responseCode = "200", description = "Page of funds")
     })
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public Page<FundDto> findAll(@ParameterObject Pageable pageable) {
         return fundService.findAll(pageable);
     }
@@ -38,6 +40,7 @@ public class FundController {
             @ApiResponse(responseCode = "404", description = "fund not found")
     })
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public FundDto findById(@PathVariable long id) {
         return fundService.findById(id);
     }
@@ -48,6 +51,7 @@ public class FundController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public FundDto addFund(@Valid @RequestBody FundDto newFund) {
         return fundService.save(newFund);
     }
@@ -58,6 +62,7 @@ public class FundController {
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteFundById(@PathVariable long id) {
         fundService.remove(id);
     }
@@ -68,6 +73,7 @@ public class FundController {
     })
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public FundDto updateFundById(@PathVariable long id, @Valid @RequestBody FundDto fund) {
         return fundService.update(id, fund);
     }
