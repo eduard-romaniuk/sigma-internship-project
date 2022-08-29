@@ -1,0 +1,1 @@
+DELETE FROM statistic_data;
