@@ -20,6 +20,7 @@ public class SecurityConfig {
         return http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers("/locale").permitAll()
                 .antMatchers("/statistic-data/latest").permitAll()
                 .anyRequest()
                 .authenticated()
