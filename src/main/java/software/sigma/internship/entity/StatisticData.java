@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity(name = "statistic_data")
 @Table(name = "statistic_data")
@@ -21,10 +21,10 @@ public class StatisticData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "war_date", nullable = false)
-    private LocalDateTime warDate;
+    @Column(name = "war_date", nullable = false, unique = true)
+    private LocalDate warDate;
 
-    @Column(name = "day_number", nullable = false)
+    @Column(name = "day_number", nullable = false, unique = true)
     private int dayNumber;
 
     @Column(name = "personnel_units", nullable = false)
