@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity(name = "user")
-@Table(name = "user")
+@Table(name = "user", schema = "public")
 @Getter
 @Setter
 @ToString
@@ -47,6 +47,7 @@ public class User {
 
     @PrePersist
     public void createEntity() {
+        subscription = Subscription.OFF;
         createDate = LocalDateTime.now();
         updateDate = LocalDateTime.now();
     }
