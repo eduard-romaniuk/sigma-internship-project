@@ -15,13 +15,19 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
+
+    private static final String[] PUBLIC_MATCHERS = {
+            "/",
+            "/locale/**",
+            "/statistic-data/latest/**",
+            "/fund/**"
+    };
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/locale").permitAll()
-                .antMatchers("/statistic-data/latest").permitAll()
+                .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
