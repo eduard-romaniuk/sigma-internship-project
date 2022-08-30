@@ -8,3 +8,5 @@ spring:
 springdoc:
   packages-to-scan: software.sigma.internship.controller
   paths-to-match: /**
+
+allow-origin: http://localhost:4200
