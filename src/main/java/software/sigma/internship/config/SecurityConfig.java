@@ -22,6 +22,7 @@ public class SecurityConfig {
                 .antMatchers("/").permitAll()
                 .antMatchers("/locale").permitAll()
                 .antMatchers("/statistic-data/latest").permitAll()
+                .antMatchers("/registration").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

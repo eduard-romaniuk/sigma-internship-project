@@ -1,17 +1,23 @@
 package software.sigma.internship.service;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import software.sigma.internship.dto.AuthUserDto;
 import software.sigma.internship.dto.UserDto;
+import software.sigma.internship.entity.Role;
 import software.sigma.internship.entity.User;
 import software.sigma.internship.exception.WebException;
 import software.sigma.internship.mapper.UserMapper;
+import software.sigma.internship.repository.LocaleRepository;
 import software.sigma.internship.repository.UserRepository;
 
+import java.util.Locale;
+
 @Service
+@Slf4j
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -19,6 +25,8 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final LocaleRepository localeRepository;
 
     @Override
     public UserDto getUserById(long id) {
@@ -35,13 +43,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto register(AuthUserDto user) {
+    public UserDto register(AuthUserDto user, Locale locale) {
 
         //Let's check if user already registered with us
         if(checkIfUserExist(user.email())){
             throw new WebException(HttpStatus.CONFLICT, "User already exists");
         }
         User userEntity = userMapper.toUser(user);
+        log.info("locale iso_code = " + locale.getLanguage());
+        userEntity.setLocale(localeRepository.findLocaleByIsoCode(locale.getLanguage()).orElseThrow(
+                () -> new WebException(HttpStatus.NOT_FOUND, "Locale not found")
+        ));
+        userEntity.setRole(Role.USER);
         encodePassword(userEntity, user);
         return userMapper.toDto(userRepository.save(userEntity));
     }
