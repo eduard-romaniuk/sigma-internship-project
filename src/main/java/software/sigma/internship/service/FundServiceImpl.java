@@ -10,7 +10,6 @@ import software.sigma.internship.mapper.FundMapper;
 import software.sigma.internship.repository.FundRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +22,7 @@ public class FundServiceImpl implements FundService {
         return fundRepository.findAll()
                 .stream()
                 .map(fundMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
