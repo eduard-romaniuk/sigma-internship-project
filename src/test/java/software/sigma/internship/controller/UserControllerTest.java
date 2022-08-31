@@ -39,5 +39,13 @@ public class UserControllerTest {
                     .andDo(print())
                     .andExpect(status().isForbidden());
         }
+
+        @Test
+        @WithMockUser(username = "admin", password = "admin", authorities = "ADMIN")
+        void adminSuccess() throws Exception {
+            mockMvc.perform(get("/user"))
+                    .andDo(print())
+                    .andExpect(status().isOk());
+        }
     }
 }
