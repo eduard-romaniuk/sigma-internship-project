@@ -4,11 +4,7 @@ import software.sigma.internship.dto.AuthUserDto;
 import software.sigma.internship.dto.UserDto;
 
 public interface UserService {
-    UserDto getUserById(long id);
-
-    UserDto getUserByEmail(String email);
-
-    UserDto register(AuthUserDto user);
+    UserDto register(AuthUserDto user, String isoCode);
 
     boolean checkIfUserExist(String email);
 }
