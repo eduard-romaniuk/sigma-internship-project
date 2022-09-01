@@ -1,8 +1,6 @@
 package software.sigma.internship.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import software.sigma.internship.dto.FundDto;
@@ -11,6 +9,7 @@ import software.sigma.internship.exception.WebException;
 import software.sigma.internship.mapper.FundMapper;
 import software.sigma.internship.repository.FundRepository;
 
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,9 +18,11 @@ public class FundServiceImpl implements FundService {
     private final FundMapper fundMapper;
 
     @Override
-    public Page<FundDto> findAll(Pageable pageable) {
-        return fundRepository.findAll(pageable)
-                .map(fundMapper::toDto);
+    public List<FundDto> findAll() {
+        return fundRepository.findAll()
+                .stream()
+                .map(fundMapper::toDto)
+                .toList();
     }
 
     @Override
