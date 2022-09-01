@@ -5,3 +5,13 @@ databaseChangeLog:
       file: db/changelog/changeset/create-start-tables.sql
   - include:
       file: db/changelog/changeset/create-default-admin-and-user.sql
+  - include:
+      file: db/changelog/changeset/rename-user-table.sql
+
+changeSet:
+  id:  rename-user-table
+  author:  MrZhenShen
+  changes:
+    -  renameTable:
+         newTableName:  end_user
+         oldTableName:  "user"

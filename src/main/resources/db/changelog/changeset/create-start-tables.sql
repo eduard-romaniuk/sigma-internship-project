@@ -1,5 +1,5 @@
 -- liquibase formatted sql
--- changeset MrZhenShen:init-database
+-- changeset Millrocious:init-database
 CREATE TABLE IF NOT EXISTS statistic_data(
      id BIGSERIAL NOT NULL PRIMARY KEY,
      war_date DATE NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS locale(
      iso_code varchar(2) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS end_user(
+CREATE TABLE IF NOT EXISTS "user"(
      id BIGSERIAL NOT NULL PRIMARY KEY,
      name varchar(255) NOT NULL UNIQUE,
      email varchar(255) NOT NULL UNIQUE,
