@@ -20,12 +20,14 @@ public class SecurityConfig {
             "/",
             "/locale/**",
             "/statistic-data/latest/**",
-            "/fund/**",
-            "/registration"
+            "/fund/**"
     };
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
+        return http
+                .cors().and()
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest()
