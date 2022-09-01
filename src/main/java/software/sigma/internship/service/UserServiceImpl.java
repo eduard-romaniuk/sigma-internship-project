@@ -14,8 +14,6 @@ import software.sigma.internship.mapper.UserMapper;
 import software.sigma.internship.repository.LocaleRepository;
 import software.sigma.internship.repository.UserRepository;
 
-import java.util.Locale;
-
 @Service
 @Slf4j
 @AllArgsConstructor
@@ -43,15 +41,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto register(AuthUserDto user, Locale locale) {
+    public UserDto register(AuthUserDto user) {
 
         //Let's check if user already registered with us
         if(checkIfUserExist(user.email())){
             throw new WebException(HttpStatus.CONFLICT, "User already exists");
         }
         User userEntity = userMapper.toUser(user);
-        log.info("locale iso_code = " + locale.getLanguage());
-        userEntity.setLocale(localeRepository.findLocaleByIsoCode(locale.getLanguage()).orElseThrow(
+        userEntity.setLocale(localeRepository.findLocaleByIsoCode("en").orElseThrow(
                 () -> new WebException(HttpStatus.NOT_FOUND, "Locale not found")
         ));
         userEntity.setRole(Role.USER);

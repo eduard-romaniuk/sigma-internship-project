@@ -10,8 +10,6 @@ import software.sigma.internship.dto.AuthUserDto;
 import software.sigma.internship.dto.UserDto;
 import software.sigma.internship.service.UserService;
 
-import java.util.Locale;
-
 @Tag(name = "Fund controller")
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +18,7 @@ public class RegistrationController {
     private final UserService userService;
 
     @PostMapping
-    public UserDto registration(@RequestBody AuthUserDto user, Locale locale) {
-        return userService.register(user, locale);
+    public UserDto registration(@RequestBody AuthUserDto user) {
+        return userService.register(user);
     }
 }
