@@ -33,7 +33,7 @@ public class UserControllerTest {
         }
 
         @Test
-        @WithMockUser(username = "user", password = "user", authorities = "USER")
+        @WithMockUser(authorities = "USER")
         void userFail() throws Exception {
             mockMvc.perform(get("/user"))
                     .andDo(print())
@@ -41,7 +41,7 @@ public class UserControllerTest {
         }
 
         @Test
-        @WithMockUser(username = "admin", password = "admin", authorities = "ADMIN")
+        @WithMockUser(authorities = "ADMIN")
         void adminSuccess() throws Exception {
             mockMvc.perform(get("/user"))
                     .andDo(print())
