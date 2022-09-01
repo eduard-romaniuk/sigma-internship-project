@@ -37,7 +37,7 @@ public class FundControllerTest {
             mockMvc.perform(get("/fund"))
                     .andDo(print())
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.content.size()", greaterThan(0)));
+                    .andExpect(jsonPath("$.size()", greaterThan(0)));
         }
     }
 
