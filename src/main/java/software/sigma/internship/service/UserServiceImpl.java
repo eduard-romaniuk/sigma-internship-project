@@ -27,30 +27,15 @@ public class UserServiceImpl implements UserService {
     private final LocaleRepository localeRepository;
 
     @Override
-    public UserDto getUserById(long id) {
-        return userRepository.findById(id)
-                .map(userMapper::toDto)
-                .orElseThrow(() -> new WebException(HttpStatus.NOT_FOUND, "User not found"));
-    }
-
-    @Override
-    public UserDto getUserByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .map(userMapper::toDto)
-                .orElseThrow(() -> new WebException(HttpStatus.NOT_FOUND, "User not found"));
-    }
-
-    @Override
-    public UserDto register(AuthUserDto user) {
+    public UserDto register(AuthUserDto user, String isoCode) {
 
         //Let's check if user already registered with us
         if(checkIfUserExist(user.email())){
             throw new WebException(HttpStatus.CONFLICT, "User already exists");
         }
         User userEntity = userMapper.toUser(user);
-        userEntity.setLocale(localeRepository.findLocaleByIsoCode("en").orElseThrow(
-                () -> new WebException(HttpStatus.NOT_FOUND, "Locale not found")
-        ));
+        userEntity.setLocale(localeRepository.findLocaleByIsoCode(isoCode)
+                .orElse(localeRepository.findLocaleByIsoCode("en").orElseThrow()));
         userEntity.setRole(Role.USER);
         encodePassword(userEntity, user);
         return userMapper.toDto(userRepository.save(userEntity));
