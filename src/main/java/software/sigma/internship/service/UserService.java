@@ -7,11 +7,7 @@ import software.sigma.internship.dto.UserFullDto;
 import java.util.List;
 
 public interface UserService {
-    UserDto getUserById(long id);
-
-    UserDto getUserByEmail(String email);
-
-    UserDto register(AuthUserDto user);
+    UserDto register(AuthUserDto user, String isoCode);
 
     boolean checkIfUserExist(String email);
 

@@ -20,7 +20,8 @@ public class SecurityConfig {
             "/",
             "/locale/**",
             "/statistic-data/latest/**",
-            "/fund/**"
+            "/fund/**",
+            "/registration"
     };
 
     @Bean
