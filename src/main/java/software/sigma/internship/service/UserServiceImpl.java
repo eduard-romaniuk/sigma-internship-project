@@ -8,11 +8,15 @@ import org.springframework.stereotype.Service;
 import software.sigma.internship.dto.AuthUserDto;
 import software.sigma.internship.dto.UserDto;
 import software.sigma.internship.entity.Role;
+import software.sigma.internship.dto.UserFullDto;
 import software.sigma.internship.entity.User;
 import software.sigma.internship.exception.WebException;
 import software.sigma.internship.mapper.UserMapper;
 import software.sigma.internship.repository.LocaleRepository;
 import software.sigma.internship.repository.UserRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -34,7 +38,6 @@ public class UserServiceImpl implements UserService {
             throw new WebException(HttpStatus.CONFLICT, "User already exists");
         }
         User userEntity = userMapper.toUser(user);
-        log.info("Locale exists? -> {}", localeRepository.findLocaleByIsoCode("en"));
         userEntity.setLocale(localeRepository.findLocaleByIsoCode(isoCode)
                 .orElse(localeRepository.findLocaleByIsoCode("en").orElseThrow()));
         userEntity.setRole(Role.USER);
@@ -46,6 +49,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean checkIfUserExist(String email) {
         return userRepository.findByEmail(email).isPresent();
+    }
+
+    @Override
+    public List<UserFullDto> getAllUsers() {
+        return userRepository.findAll().stream().map(userMapper::toUserFullDto).collect(Collectors.toList());
     }
 
     private void encodePassword( User userEntity, AuthUserDto user){

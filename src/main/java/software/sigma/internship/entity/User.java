@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity(name = "user")
+@Entity(name = "end_user")
 @Table(name = "end_user", schema = "public")
 @Getter
 @Setter

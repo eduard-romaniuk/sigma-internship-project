@@ -8,6 +8,4 @@ databaseChangeLog:
   - include:
       file: db/changelog/changeset/change-ukrainian-locale.sql
   - include:
-      file: db/changelog/changeset/channge-user-table-name.sql
-
-
+      file: db/changelog/changeset/rename-user-table.sql
