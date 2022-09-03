@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
             throw new WebException(HttpStatus.CONFLICT, "User already exists");
         }
         User userEntity = userMapper.toUser(user);
+        log.info("Locale exists? -> {}", localeRepository.findLocaleByIsoCode("en"));
         userEntity.setLocale(localeRepository.findLocaleByIsoCode(isoCode)
                 .orElse(localeRepository.findLocaleByIsoCode("en").orElseThrow()));
         userEntity.setRole(Role.USER);

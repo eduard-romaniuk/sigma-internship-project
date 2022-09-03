@@ -7,3 +7,7 @@ databaseChangeLog:
       file: db/changelog/changeset/create-default-admin-and-user.sql
   - include:
       file: db/changelog/changeset/change-ukrainian-locale.sql
+  - include:
+      file: db/changelog/changeset/channge-user-table-name.sql
+
+

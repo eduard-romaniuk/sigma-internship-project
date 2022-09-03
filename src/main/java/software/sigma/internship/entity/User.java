@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity(name = "user")
-@Table(name = "user", schema = "public")
+@Table(name = "end_user", schema = "public")
 @Getter
 @Setter
 @ToString
