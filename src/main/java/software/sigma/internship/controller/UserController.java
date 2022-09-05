@@ -36,7 +36,7 @@ public class UserController {
 
     @Operation(summary = "Register new user")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "User is created successfully")
+            @ApiResponse(responseCode = "201", description = "User is created successfully")
     })
     @PostMapping
     public UserDto registration(@RequestBody AuthUserDto user) {
