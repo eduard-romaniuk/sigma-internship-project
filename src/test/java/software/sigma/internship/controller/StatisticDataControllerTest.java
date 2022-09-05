@@ -34,7 +34,7 @@ public class StatisticDataControllerTest {
             mockMvc.perform(get("/statistic-data/latest"))
                     .andDo(print())
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.id").value(2));
+                    .andExpect(jsonPath("$.warDate").value("2010-10-21"));
         }
     }
 
