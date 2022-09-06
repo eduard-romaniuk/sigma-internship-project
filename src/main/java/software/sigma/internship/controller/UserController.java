@@ -48,6 +48,12 @@ public class UserController {
         log.info(LocaleContextHolder.getLocale().getLanguage());
         return userService.register(user, LocaleContextHolder.getLocale().getLanguage());
     }
+
+    @Operation(summary = "authentication")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User is created successfully")
+    })
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping("/login")
     public UserFullDto authenticatedUser() {
