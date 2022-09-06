@@ -52,7 +52,7 @@ public class UserController {
     @Operation(summary = "authentication")
     @ResponseStatus(HttpStatus.OK)
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "User is created successfully")
+            @ApiResponse(responseCode = "200", description = "User successfully authenticated")
     })
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping("/login")
