@@ -7,8 +7,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import software.sigma.internship.dto.AuthUserDto;
 import software.sigma.internship.dto.UserDto;
-import software.sigma.internship.entity.Role;
 import software.sigma.internship.dto.UserFullDto;
+import software.sigma.internship.entity.Role;
 import software.sigma.internship.entity.User;
 import software.sigma.internship.exception.WebException;
 import software.sigma.internship.mapper.UserMapper;
@@ -29,6 +29,13 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     private final LocaleRepository localeRepository;
+
+    @Override
+    public UserFullDto findByEmail(String email) {
+        return userMapper.toUserFullDto(userRepository.findByEmail(email).orElseThrow(
+                () -> new WebException(HttpStatus.NOT_FOUND, "User not found")
+        ));
+    }
 
     @Override
     public UserDto register(AuthUserDto user, String isoCode) {

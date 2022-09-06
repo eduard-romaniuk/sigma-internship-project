@@ -21,7 +21,7 @@ public class SecurityConfig {
             "/locale/**",
             "/statistic-data/latest/**",
             "/fund/**",
-            "/registration"
+            "/user"
     };
 
     @Bean
