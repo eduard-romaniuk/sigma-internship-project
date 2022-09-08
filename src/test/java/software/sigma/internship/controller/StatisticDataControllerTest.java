@@ -98,7 +98,7 @@ public class StatisticDataControllerTest {
                             .param("lossType", "tanks"))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.size()").value(4))
-                    .andExpect(jsonPath("$.max").value(22));
+                    .andExpect(jsonPath("$.max").value(10000));
         }
 
         @Test

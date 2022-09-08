@@ -11,3 +11,6 @@ springdoc:
 
 cors:
   allow-origin: http://localhost:4200
+
+runAfterTests:
+  retrievingStatData: true
