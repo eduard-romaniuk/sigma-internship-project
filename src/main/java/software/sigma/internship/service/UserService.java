@@ -13,4 +13,6 @@ public interface UserService {
     boolean checkIfUserExist(String email);
 
     List<UserFullDto> getAllUsers();
+
+    void deleteUserById(long id);
 }

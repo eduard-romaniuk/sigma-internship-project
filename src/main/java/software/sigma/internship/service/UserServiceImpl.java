@@ -63,7 +63,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll().stream().map(userMapper::toUserFullDto).collect(Collectors.toList());
     }
 
-    private void encodePassword( User userEntity, AuthUserDto user){
+    @Override
+    public void deleteUserById(long id) {
+        userRepository.deleteById(id);
+    }
+
+    private void encodePassword(User userEntity, AuthUserDto user){
         userEntity.setPassword(passwordEncoder.encode(user.password()));
     }
 }

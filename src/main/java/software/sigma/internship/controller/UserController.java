@@ -62,4 +62,15 @@ public class UserController {
                 .getPrincipal();
         return userService.findByEmail(authenticatedUser.getUsername());
     }
+
+    @Operation(summary = "authentication")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User successfully authenticated")
+    })
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping("/{id}")
+    public void authenticatedUser(@PathVariable long id) {
+        userService.deleteUserById(id);
+    }
 }
