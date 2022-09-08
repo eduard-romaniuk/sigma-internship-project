@@ -2,6 +2,8 @@ package software.sigma.internship.service;
 
 import software.sigma.internship.dto.StatisticDataDto;
 
+import java.util.List;
+
 public interface WarAPIService {
     String SCHEME = "https";
     String HOST = "russianwarship.rip/api/v1";
@@ -11,4 +13,6 @@ public interface WarAPIService {
     String SEPARATOR = "/";
 
     StatisticDataDto getLatestStatistics();
+
+    List<StatisticDataDto> getStatisticsList(int startDayNumber);
 }
