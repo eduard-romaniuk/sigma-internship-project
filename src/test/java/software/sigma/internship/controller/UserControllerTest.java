@@ -16,8 +16,7 @@ import software.sigma.internship.dto.AuthUserDto;
 
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -162,6 +161,18 @@ public class UserControllerTest {
                     .andExpect(jsonPath("$.email").value(adminEmail))
                     .andExpect(jsonPath("$.role").value(adminRole))
                     .andExpect(jsonPath("$.id", notNullValue()));
+
+        }
+    }
+
+    @Nested
+    public class DeleteUser {
+        @Test
+        @WithMockUser(authorities = "ADMIN")
+        void Should_DeleteUser_When_UserIdIsCorrect() throws Exception {
+            mockMvc.perform(delete("/user/1"))
+                    .andDo(print())
+                    .andExpect(status().isNoContent());
 
         }
     }
