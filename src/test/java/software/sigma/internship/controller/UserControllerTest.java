@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import software.sigma.internship.dto.AuthUserDto;
 
 import static org.hamcrest.Matchers.notNullValue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -23,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Sql(scripts = "/scripts/create-users.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "/scripts/clear-user.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class UserControllerTest {
 
@@ -126,6 +128,39 @@ public class UserControllerTest {
                     .andExpect(status().isCreated())
                     .andExpect(jsonPath("$.name").value(user.name()))
                     .andExpect(jsonPath("$.email").value(user.email()))
+                    .andExpect(jsonPath("$.id", notNullValue()));
+
+        }
+    }
+
+    @Nested
+    public class AuthenticatedUser {
+        String userEmail = "userD@email.com";
+        String adminEmail = "adminU@email.com";
+        String userPassword = "user";
+        String adminPassword = "admin";
+        String userRole = "USER";
+        String adminRole = "ADMIN";
+        @Test
+        void Should_ReturnUserFullDto_When_UserIsValid() throws Exception {
+            mockMvc.perform(get("/user/login")
+                    .with(httpBasic(userEmail,userPassword)))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.email").value(userEmail))
+                    .andExpect(jsonPath("$.role").value(userRole))
+                    .andExpect(jsonPath("$.id", notNullValue()));
+
+        }
+
+        @Test
+        void Should_ReturnUserFullDto_When_AdminIsValid() throws Exception {
+            mockMvc.perform(get("/user/login")
+                            .with(httpBasic(adminEmail,adminPassword)))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.email").value(adminEmail))
+                    .andExpect(jsonPath("$.role").value(adminRole))
                     .andExpect(jsonPath("$.id", notNullValue()));
 
         }
