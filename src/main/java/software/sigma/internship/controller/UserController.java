@@ -65,7 +65,7 @@ public class UserController {
         return userService.findByEmail(authenticatedUser.getUsername());
     }
 
-    @Operation(summary = "authentication")
+    @Operation(summary = "delete user")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "User successfully deleted"),
