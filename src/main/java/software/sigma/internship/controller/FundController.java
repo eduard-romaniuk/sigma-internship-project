@@ -44,7 +44,8 @@ public class FundController {
 
     @Operation(summary = "add fund")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "fund successfully created")
+            @ApiResponse(responseCode = "200", description = "fund successfully created"),
+            @ApiResponse(responseCode = "400", description = "Invalid fund")
     })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
@@ -55,7 +56,8 @@ public class FundController {
 
     @Operation(summary = "delete fund by id")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "fund successfully deleted")
+            @ApiResponse(responseCode = "200", description = "fund successfully deleted"),
+            @ApiResponse(responseCode = "404", description = "fund not found")
     })
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
@@ -66,7 +68,8 @@ public class FundController {
 
     @Operation(summary = "update fund by id")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "fund successfully updated")
+            @ApiResponse(responseCode = "200", description = "fund successfully updated"),
+            @ApiResponse(responseCode = "400", description = "Invalid fund")
     })
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/{id}")

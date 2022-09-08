@@ -41,7 +41,8 @@ public class UserController {
     @Operation(summary = "Register new user")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "User is created successfully")
+            @ApiResponse(responseCode = "201", description = "User is created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid user credentials")
     })
     @PostMapping
     public UserDto registration(@Valid @RequestBody AuthUserDto user) {
@@ -52,7 +53,8 @@ public class UserController {
     @Operation(summary = "authentication")
     @ResponseStatus(HttpStatus.OK)
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "User successfully authenticated")
+            @ApiResponse(responseCode = "200", description = "User successfully authenticated"),
+            @ApiResponse(responseCode = "400", description = "Invalid user credentials")
     })
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping("/login")
@@ -66,7 +68,8 @@ public class UserController {
     @Operation(summary = "authentication")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "User successfully authenticated")
+            @ApiResponse(responseCode = "204", description = "User successfully deleted"),
+            @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
